@@ -85,6 +85,7 @@ int main (int argc, char *argv[]) {
       cron();
     }
     stateMain(-count);
+    // 如果设置了最大带宽，用来限速
     waitBandwidth(&old);
     stateMain(1);
     for (int i=0; i<global::maxFds; i++)
@@ -93,14 +94,19 @@ int main (int argc, char *argv[]) {
       global::ansPoll[global::pollfds[i].fd] = global::pollfds[i].revents;
     global::posPoll = 0;
     stateMain(2);
+    // 接收用户输入，得到初始url列表
     input();
     stateMain(3);
+    // 按优先度将url放到待爬取站点
     sequencer();
     stateMain(4);
+    // 对站点host请求dns解析
     fetchDns();
     stateMain(5);
+    // 从dns解析成功的站点中，取出一些url进行socket连接
     fetchOpen();
     stateMain(6);
+    // 下载网页，提取url，并执行用户定制的网页分析
     checkAll();
     // select
     stateMain(count++);

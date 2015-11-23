@@ -30,6 +30,15 @@
 #define addIPUrl() global::IPUrl++
 #define delIPUrl() global::IPUrl--
 
+///!!! add log
+#define USE_LOG
+
+#ifdef USE_LOG
+#define LOG(...) printf(__VA_ARGS__)
+#else
+#define LOG(...)
+#endif
+
 /** This represent a connection : we have a fixed number of them
  * fetchOpen links them with servers
  * fetchPipe reads those which are linked

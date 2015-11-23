@@ -479,6 +479,7 @@ int IPSite::fetch () {
     } else {
       Connexion *conn = global::freeConns->get();
       url *u = getUrl();
+      LOG("IPSite::fetch url: %s\n", u->getUrl());
       // We're allowed to fetch this one
       // open the socket and write the request
       char res = getFds(conn, &(u->addr), u->getPort());
